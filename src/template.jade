@@ -1,0 +1,14 @@
+select.chzn-select(name=name, data-placeholder=placeholder, class="#{span}", multiple=multiple, disabled=disabled)
+  unless multiple
+    option
+  if groupBy
+    - var groupCollection = collection.groupBy(groupBy);
+    for collection, key in groupCollection
+      optgroup(label=key)
+        for model in collection
+          - var isSelected = _.contains(selected, value(model).toString());
+          option(value=value(model), selected=isSelected)= text(model)
+  else
+    for model in collection.models
+      - var isSelected = _.contains(selected, value(model).toString());
+      option(value=value(model), selected=isSelected)= text(model)

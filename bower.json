@@ -1,0 +1,15 @@
+{
+  "name": "backbone.chosen_view",
+  "version": "0.0.0",
+  "main": "dist/backbone.chosen_view.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "chosen": "kinua/chosen"
+  }
+}
