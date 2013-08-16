@@ -6,7 +6,7 @@
 
 ```js
 var view = new Backbone.DatepickerView({
-  el: @$('.input-website')
+  el: $('.input-user'),
   collection: new Backbone.Collection({
     id: 1,
     name: 'jarvis'
@@ -14,12 +14,12 @@ var view = new Backbone.DatepickerView({
     id: 2,
     name: 'kinua'
   }),
-  name: 'website_id'
-  text: 'name'
-  value: 'id'
-  span: 'span12'
-  placeholder: 'Website'
-  multiple: true
+  name: 'user_id',
+  text: 'name',
+  value: 'id',
+  span: 'span12',
+  placeholder: 'Users',
+  multiple: true,
   defaultValue: 1
 });
 ```
