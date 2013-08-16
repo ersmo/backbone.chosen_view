@@ -131,7 +131,7 @@ buf.push("</select>");;return buf.join("");
       return _ref;
     }
 
-    ChosenView.prototype.template = window.JST.chosen;
+    ChosenView.prototype.template = JST.chosen;
 
     ChosenView.prototype.defaults = {
       name: null,
@@ -180,7 +180,8 @@ buf.push("</select>");;return buf.join("");
         groupBy: this.options.groupBy,
         subText: this.options.subText,
         selected: _.invoke(this.selected, 'toString'),
-        disabled: this.options.disabled
+        disabled: this.options.disabled,
+        _: _
       }));
       this.$('select').chosen({
         allow_single_deselect: this.options.allowDeselect,

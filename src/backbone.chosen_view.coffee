@@ -1,7 +1,7 @@
 
 class Backbone.ChosenView extends Backbone.View
 
-  template: window.JST.chosen
+  template: JST.chosen
 
   defaults:
     name: null
@@ -43,6 +43,7 @@ class Backbone.ChosenView extends Backbone.View
       subText: @options.subText
       selected: _.invoke @selected, 'toString'
       disabled: @options.disabled
+      _: _
     @$('select').chosen
       allow_single_deselect: @options.allowDeselect
       lock_dropdown: @locked

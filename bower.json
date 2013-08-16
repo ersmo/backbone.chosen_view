@@ -10,6 +10,7 @@
     "tests"
   ],
   "dependencies": {
+    "backbone": "~1.0.0",
     "chosen": "kinua/chosen"
   }
 }
