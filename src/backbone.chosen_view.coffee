@@ -22,11 +22,15 @@ class Backbone.ChosenView extends Backbone.View
 
   initialize: ->
     @options = _.defaults @options, @defaults
+    @valueFn = if _.isFunction @options.value then @options.value else (model) => model.get(@options.value)
+    @textFn = if _.isFunction @options.text then @options.text else (model) => model.get(@options.text)
+
     @selected = @options.defaultValue or []
     @listenTo @collection, 'reset sync', @render
     @$el.on 'toggle-all', @toggleAll
-    @$el.on 'lock-dropdown', @lockDropdown
+    @$el.on 'select-all', @selectAll
     @$el.on 'clear-all', @clearAll
+    @$el.on 'toggle-dropdown', @toggleDropdown
     setTimeout @render, 0
 
   render: =>
@@ -37,8 +41,8 @@ class Backbone.ChosenView extends Backbone.View
       placeholder: @options.placeholder
       span: @options.span
       name: @options.name
-      value: if _.isFunction @options.value then @options.value else (model) => model.get(@options.value)
-      text: if _.isFunction @options.text then @options.text else (model) => model.get(@options.text)
+      value: @valueFn
+      text: @textFn
       groupBy: @options.groupBy
       subText: @options.subText
       selected: _.invoke @selected, 'toString'
@@ -50,18 +54,25 @@ class Backbone.ChosenView extends Backbone.View
     this
 
   saveSelected: =>
-    @selected = @$('select').val()
+    @selected = @$('select').val() or []
 
   toggleAll: =>
-    @isSelectAll = not @isSelectAll
-    @selected = if @isSelectAll then @collection.pluck @options.value else []
-    @render()
+    if @isSelectAll is true
+      @clearAll()
+    else
+      @selectAll()
 
-  lockDropdown: =>
-    @isLock = not @isLock
-    @locked = if @isLock then true else false
+  selectAll: =>
+    @isSelectAll = true
+    @selected = @collection.map @valueFn
     @render()
 
   clearAll: =>
+    @isSelectAll = false
     @selected = []
+    @render()
+
+  toggleDropdown: =>
+    @isLock = not @isLock
+    @locked = if @isLock then true else false
     @render()

@@ -122,8 +122,9 @@ buf.push("</select>");;return buf.join("");
     __extends(ChosenView, _super);
 
     function ChosenView() {
+      this.toggleDropdown = __bind(this.toggleDropdown, this);
       this.clearAll = __bind(this.clearAll, this);
-      this.lockDropdown = __bind(this.lockDropdown, this);
+      this.selectAll = __bind(this.selectAll, this);
       this.toggleAll = __bind(this.toggleAll, this);
       this.saveSelected = __bind(this.saveSelected, this);
       this.render = __bind(this.render, this);
@@ -153,17 +154,24 @@ buf.push("</select>");;return buf.join("");
     };
 
     ChosenView.prototype.initialize = function() {
+      var _this = this;
       this.options = _.defaults(this.options, this.defaults);
+      this.valueFn = _.isFunction(this.options.value) ? this.options.value : function(model) {
+        return model.get(_this.options.value);
+      };
+      this.textFn = _.isFunction(this.options.text) ? this.options.text : function(model) {
+        return model.get(_this.options.text);
+      };
       this.selected = this.options.defaultValue || [];
       this.listenTo(this.collection, 'reset sync', this.render);
       this.$el.on('toggle-all', this.toggleAll);
-      this.$el.on('lock-dropdown', this.lockDropdown);
+      this.$el.on('select-all', this.selectAll);
       this.$el.on('clear-all', this.clearAll);
+      this.$el.on('toggle-dropdown', this.toggleDropdown);
       return setTimeout(this.render, 0);
     };
 
     ChosenView.prototype.render = function() {
-      var _this = this;
       this.selected = _.isArray(this.selected) ? this.selected : [this.selected];
       this.$el.html(this.template({
         collection: this.collection,
@@ -171,12 +179,8 @@ buf.push("</select>");;return buf.join("");
         placeholder: this.options.placeholder,
         span: this.options.span,
         name: this.options.name,
-        value: _.isFunction(this.options.value) ? this.options.value : function(model) {
-          return model.get(_this.options.value);
-        },
-        text: _.isFunction(this.options.text) ? this.options.text : function(model) {
-          return model.get(_this.options.text);
-        },
+        value: this.valueFn,
+        text: this.textFn,
         groupBy: this.options.groupBy,
         subText: this.options.subText,
         selected: _.invoke(this.selected, 'toString'),
@@ -191,23 +195,32 @@ buf.push("</select>");;return buf.join("");
     };
 
     ChosenView.prototype.saveSelected = function() {
-      return this.selected = this.$('select').val();
+      return this.selected = this.$('select').val() || [];
     };
 
     ChosenView.prototype.toggleAll = function() {
-      this.isSelectAll = !this.isSelectAll;
-      this.selected = this.isSelectAll ? this.collection.pluck(this.options.value) : [];
-      return this.render();
+      if (this.isSelectAll === true) {
+        return this.clearAll();
+      } else {
+        return this.selectAll();
+      }
     };
 
-    ChosenView.prototype.lockDropdown = function() {
-      this.isLock = !this.isLock;
-      this.locked = this.isLock ? true : false;
+    ChosenView.prototype.selectAll = function() {
+      this.isSelectAll = true;
+      this.selected = this.collection.map(this.valueFn);
       return this.render();
     };
 
     ChosenView.prototype.clearAll = function() {
+      this.isSelectAll = false;
       this.selected = [];
+      return this.render();
+    };
+
+    ChosenView.prototype.toggleDropdown = function() {
+      this.isLock = !this.isLock;
+      this.locked = this.isLock ? true : false;
       return this.render();
     };
 
