@@ -16,7 +16,7 @@ var view = new Backbone.DatepickerView({
   }),
   name: 'user_id',
   text: 'name',
-  value: 'id',
+  value: function(model) {return model.id;},
   span: 'span12',
   placeholder: 'Users',
   multiple: true,
@@ -24,36 +24,55 @@ var view = new Backbone.DatepickerView({
 });
 ```
 
-## Options
+## Params
+
+- {Object} options
+  - {Backbone.Collection} collection, required
+  - {jQuery selector} el, required
+  - {String} name, required
+  - {String|Function} text, required  
+    if String, the text will be the attribute of model from collection  
+    if Function, the function pattern must be `function(model) {}`
+  - {String|Function} value, required  
+    if String, the text will be the attribute of model from collection  
+    if Function, the function pattern must be `function(model) {}`
+  - {String} span, optional  
+    using the bootstrap 2.x class spanX (X for 1-12)
+  - {String} placeholder, optional
+  - {Boolean} multiple, optional
+  - {String|Array} defaultValue, optional
+  - {Boolean} allowDeselect, optional  
+    allow select noting when the chosen view is in single select mode
+  - {Boolean} disabled, optional 
+  - {String} groupBy, optional
+
+## Defaults
 
 ```coffee
-defaults:
   name: null
   placeholder: null
   multiple: null
   defaultValue: null
   span: 'span4'
-  value: null || function(model) {}
-  text: null || function(model) {}
+  value: null
+  text: null
   groupBy: null
-  subText: null
-  selected: null
   disabled: false
   allowDeselect: true
 ```
 
 ## Events
 
-- toggle-all
+- toggle-all  
   toggle select all items or nothing
 
-- select-all
+- select-all  
   toggle select all items
 
-- clear-all
+- clear-all  
   clear selected items
 
-- toggle-dropdown
+- toggle-dropdown  
   toggle the dropdown list to make it not disappear when selected an item. Helpful for selecting multiple items.
 
 Example

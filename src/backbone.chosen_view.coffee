@@ -12,8 +12,6 @@ class Backbone.ChosenView extends Backbone.View
     value: null
     text: null
     groupBy: null
-    subText: null
-    selected: null
     disabled: false
     allowDeselect: true
 
@@ -44,7 +42,6 @@ class Backbone.ChosenView extends Backbone.View
       value: @valueFn
       text: @textFn
       groupBy: @options.groupBy
-      subText: @options.subText
       selected: _.invoke @selected, 'toString'
       disabled: @options.disabled
       _: _
