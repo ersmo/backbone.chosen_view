@@ -143,8 +143,6 @@ buf.push("</select>");;return buf.join("");
       value: null,
       text: null,
       groupBy: null,
-      subText: null,
-      selected: null,
       disabled: false,
       allowDeselect: true
     };
@@ -182,7 +180,6 @@ buf.push("</select>");;return buf.join("");
         value: this.valueFn,
         text: this.textFn,
         groupBy: this.options.groupBy,
-        subText: this.options.subText,
         selected: _.invoke(this.selected, 'toString'),
         disabled: this.options.disabled,
         _: _
@@ -191,6 +188,11 @@ buf.push("</select>");;return buf.join("");
         allow_single_deselect: this.options.allowDeselect,
         lock_dropdown: this.locked
       });
+      if (!_.isEmpty(this.selected)) {
+        this.$('select').trigger('change', {
+          result: this.selected
+        });
+      }
       return this;
     };
 

@@ -48,6 +48,8 @@ class Backbone.ChosenView extends Backbone.View
     @$('select').chosen
       allow_single_deselect: @options.allowDeselect
       lock_dropdown: @locked
+    if not _.isEmpty @selected
+      @$('select').trigger 'change', {result: @selected}
     this
 
   saveSelected: =>
