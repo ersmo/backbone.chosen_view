@@ -196,8 +196,8 @@ buf.push("</select>");;return buf.join("");
       return this;
     };
 
-    ChosenView.prototype.saveSelected = function() {
-      return this.selected = this.$('select').val() || [];
+    ChosenView.prototype.saveSelected = function(e, obj) {
+      return this.selected = this.$('select').val() || (obj != null ? obj.result : void 0) || [];
     };
 
     ChosenView.prototype.toggleAll = function() {

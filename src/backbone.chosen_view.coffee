@@ -52,8 +52,8 @@ class Backbone.ChosenView extends Backbone.View
       @$('select').trigger 'change', {result: @selected}
     this
 
-  saveSelected: =>
-    @selected = @$('select').val() or []
+  saveSelected: (e, obj) =>
+    @selected = @$('select').val() or obj?.result or []
 
   toggleAll: =>
     if @isSelectAll is true
