@@ -1,6 +1,6 @@
 {
   "name": "backbone.chosen_view",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "dist/backbone.chosen_view.js",
   "ignore": [
     "**/.*",

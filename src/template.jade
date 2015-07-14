@@ -6,9 +6,9 @@ select.chzn-select(name=name, data-placeholder=placeholder, class="#{span}", mul
     for collection, key in groupCollection
       optgroup(label=key)
         for model in collection
-          - var isSelected = _.contains(selected, value(model).toString());
+          - var isSelected = _.contains(selected, String(value(model)));
           option(value=value(model), selected=isSelected)= text(model)
   else
     for model in collection.models
-      - var isSelected = _.contains(selected, value(model).toString());
+      - var isSelected = _.contains(selected, String(value(model)));
       option(value=value(model), selected=isSelected)= text(model)
